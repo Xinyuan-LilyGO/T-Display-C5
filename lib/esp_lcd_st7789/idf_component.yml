@@ -1,0 +1,7 @@
+description: ESP LCD ST7789 driver
+repository: git://github.com/jbrilha/esp_lcd_st7789.git
+repository_info:
+  commit_sha: 66c9fa36bb87c2cc036edb43511a9b8346e89281
+  path: .
+url: https://github.com/jbrilha/esp_lcd_st7789
+version: 1.0.2
