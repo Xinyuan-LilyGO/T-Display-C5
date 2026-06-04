@@ -1,6 +1,6 @@
 # T-Display-C5
 
-LilyGO T-Display-C5 is a compact development board based on the **ESP32-C5**, featuring a 1.9-inch ST7789 LCD touch display (170×320), AXP2602 power management unit, and CST816S capacitive touch controller(choosable).
+The LilyGO T-Display-C5 is a development board based on the **ESP32-C5**, featuring a 1.9-inch ST7789 LCD touchscreen, an AXP2602 power management chip, and a CST816S capacitive touch controller. It supports wake-up from deep sleep via button (IO0) and I2C (IO2, IO3).
 
 ## 🛠️ Hardware Specifications
 
@@ -37,6 +37,7 @@ LilyGO T-Display-C5 is a compact development board based on the **ESP32-C5**, fe
 | BOOT | GPIO 28 | BOOT Button |
 | **PMU** | | |
 | AXP2602_INT | GPIO 10 | AXP2602 Interrupt |
+>- In DeepSleep mode, the ESP32C5 can be woken up by IO0-IO6 pins; for detailed information, please refer to the datasheet.
 
 ## 📦 Software Requirements
 

@@ -3,7 +3,7 @@ import os
 import shutil
 
 # --- 请在此处修改为你自己的文件夹名称 ---
-TARGET_DIR = "firmware"
+TARGET_DIR = "firmware_bin"
 # ------------------------------------
 
 def copy_firmware_files(source, target, env):
