@@ -35,7 +35,7 @@ The LilyGO T-Display-C5 is a development board based on the **ESP32-C5**, featur
 | **Buttons**         |         |                   |
 | BUTTON (GPIO0)      | GPIO 0  | User Button       |
 | BOOT                | GPIO 28 | BOOT Button       |
-| **PMU**             |         |                   |
+| **BMU**             |         |                   |
 | AXP2602_INT         | GPIO 10 | AXP2602 Interrupt |
 >- In DeepSleep mode, the ESP32C5 can be woken up by IO0-IO6 pins; for detailed information, please refer to the datasheet.
 
