@@ -4,61 +4,61 @@ The LilyGO T-Display-C5 is a development board based on the **ESP32-C5**, featur
 
 ## 🛠️ Hardware Specifications
 
-| Item | Spec |
-|------|------|
-| SoC | ESP32-C5 (RISC-V 32-bit, 240MHz) |
-| Flash | 16MB (Quad QIO) |
-| PSRAM | 8MB (Quad QIO) |
-| Display | 1.9" ST7789, 170×320 RGB565, SPI |
-| Touch (optional) | CST816S Capacitive Touch (I2C) |
-| PMU | AXP2602 Power Management |
-| Wireless | Wi-Fi + Bluetooth |
-| USB | USB Type-C (USB-Serial-JTAG) |
+| Item             | Spec                             |
+| ---------------- | -------------------------------- |
+| SoC              | ESP32-C5 (RISC-V 32-bit, 240MHz) |
+| Flash            | 16MB (Quad QIO)                  |
+| PSRAM            | 8MB (Quad QIO)                   |
+| Display          | 1.9" ST7789, 170×320 RGB565, SPI |
+| Touch (optional) | CST816S Capacitive Touch (I2C)   |
+| BMU              | AXP2602 Power voltameter         |
+| Wireless         | Wi-Fi + Bluetooth                |
+| USB              | USB Type-C (USB-Serial-JTAG)     |
 
 ## 🔌 Pin Mapping
 
-| Function | Pin | Description |
-|----------|-----|-------------|
-| **LCD** | | |
-| LCD_CS | GPIO 26 | SPI Chip Select |
-| LCD_SCK | GPIO 7 | SPI Clock |
-| LCD_MOSI | GPIO 9 | SPI Data |
-| LCD_DC | GPIO 8 | Data/Command |
-| LCD_RST | GPIO 23 | Reset |
-| LCD_BLK | GPIO 25 | Backlight PWM |
-| **I2C** | | |
-| I2C_SDA | GPIO 2 | I2C Data |
-| I2C_SCL | GPIO 3 | I2C Clock |
-| **Touch (CST816S)** | | |
-| TP_INT | GPIO 27 | Touch Interrupt |
-| TP_RST | GPIO 24 | Touch Reset |
-| **Buttons** | | |
-| BUTTON (GPIO0) | GPIO 0 | User Button |
-| BOOT | GPIO 28 | BOOT Button |
-| **PMU** | | |
-| AXP2602_INT | GPIO 10 | AXP2602 Interrupt |
+| Function            | Pin     | Description       |
+| ------------------- | ------- | ----------------- |
+| **LCD**             |         |                   |
+| LCD_CS              | GPIO 26 | SPI Chip Select   |
+| LCD_SCK             | GPIO 7  | SPI Clock         |
+| LCD_MOSI            | GPIO 9  | SPI Data          |
+| LCD_DC              | GPIO 8  | Data/Command      |
+| LCD_RST             | GPIO 23 | Reset             |
+| LCD_BLK             | GPIO 25 | Backlight PWM     |
+| **I2C**             |         |                   |
+| I2C_SDA             | GPIO 2  | I2C Data          |
+| I2C_SCL             | GPIO 3  | I2C Clock         |
+| **Touch (CST816S)** |         |                   |
+| TP_INT              | GPIO 27 | Touch Interrupt   |
+| TP_RST              | GPIO 24 | Touch Reset       |
+| **Buttons**         |         |                   |
+| BUTTON (GPIO0)      | GPIO 0  | User Button       |
+| BOOT                | GPIO 28 | BOOT Button       |
+| **PMU**             |         |                   |
+| AXP2602_INT         | GPIO 10 | AXP2602 Interrupt |
 >- In DeepSleep mode, the ESP32C5 can be woken up by IO0-IO6 pins; for detailed information, please refer to the datasheet.
 
 ## 📦 Software Requirements
 
-| Component | Version / Notes |
-|-----------|-----------------|
-| ESP-IDF | ≥ v5.3 (ESP32-C5 support required) |
-| Arduino ESP32 | Based on ESP-IDF v5.3+ |
-| LVGL | v9.2.0 (included) |
-| PlatformIO | Use `develop` branch of platform-espressif32 |
+| Component     | Version / Notes                              |
+| ------------- | -------------------------------------------- |
+| ESP-IDF       | ≥ v5.3 (ESP32-C5 support required)           |
+| Arduino ESP32 | Based on ESP-IDF v5.3+                       |
+| LVGL          | v9.2.0 (included)                            |
+| PlatformIO    | Use `develop` branch of platform-espressif32 |
 
 ## 📝 Examples
 
-| Example | Description |
-|---------|-------------|
-| 🏭 [factory](examples/factory) | Factory demo firmware — LVGL dashboard with battery info, WiFi, NTP, touch, buttons, and deep sleep |
-| 🖥️ [lcd](examples/lcd) | LCD basic test — initialize ST7789 and fill screen with red |
-| 🎨 [lvgl](examples/lvgl) | LVGL GUI example — demonstrates button widgets |
-| 🔗 [spi_test](examples/spi_test) | SPI bus communication test |
-| 👆 [touch](examples/touch) | Touch screen test — CST816S touch coordinate reading |
-| 🔋 [voltameter](examples/voltameter) | Voltmeter — AXP2602 battery voltage/current/temperature/SOC monitoring |
-| 📡 [wifi_sat](examples/wifi_sat) | Wi-Fi SoftAP — ESP32-C5 as a wireless access point |
+| Example                             | Description                                                                                         |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------- |
+| 🏭 [factory](examples/factory)       | Factory demo firmware — LVGL dashboard with battery info, WiFi, NTP, touch, buttons, and deep sleep |
+| 🖥️ [lcd](examples/lcd)               | LCD basic test — initialize ST7789 and fill screen with red                                         |
+| 🎨 [lvgl](examples/lvgl)             | LVGL GUI example — demonstrates button widgets                                                      |
+| 🔗 [spi_test](examples/spi_test)     | SPI bus communication test                                                                          |
+| 👆 [touch](examples/touch)           | Touch screen test — CST816S touch coordinate reading                                                |
+| 🔋 [voltameter](examples/voltameter) | Voltmeter — AXP2602 battery voltage/current/temperature/SOC monitoring                              |
+| 📡 [wifi_sat](examples/wifi_sat)     | Wi-Fi SoftAP — ESP32-C5 as a wireless access point                                                  |
 
 ## 🚀 Quick Start
 

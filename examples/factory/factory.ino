@@ -8,6 +8,7 @@
 #include "board_config.h"
 #include "lvgl.h"
 #include "WiFi.h"
+#include "WiFiMulti.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "time.h"
@@ -34,14 +35,16 @@
 #define COLOR_GRAY lv_color_hex(0x8B949E)   // Secondary text
 #define COLOR_DIM lv_color_hex(0x30363D)    // Border / divider
 
-#define WIFI_SSID "xinyuandianzi"
-#define WIFI_PASSWORD "AA15994823428"
+#define WIFI_SSID_1 "xinyuandianzi"
+#define WIFI_PASSWORD_1 "AA15994823428"
+#define WIFI_SSID_2 "LilyGo-AABB"
+#define WIFI_PASSWORD_2 "xinyuandianzi"
 
 esp_lcd_panel_handle_t panel_handle = NULL;
 esp_lcd_panel_io_handle_t io_handle = NULL;
 
 AXP2602 axp;
-LilyGo_Button btn_23;
+LilyGo_Button btn_0;
 LilyGo_Button btn_boot;
 
 bool wifi_connected = false;
@@ -137,6 +140,8 @@ void touch_init(void)
 
 void my_touchpad_read(lv_indev_t *indev, lv_indev_data_t *data)
 {
+    static int doubleClickCount = 0; // Counter for double clicks
+
     if (touchEventFlag)
     {
         touchEventFlag = false;
@@ -159,6 +164,18 @@ void touch_xy_update(void *data)
 {
     int x = ((data_struct *)data)->x;
     int y = ((data_struct *)data)->y;
+    // lcd home btn
+    if (x == 360 && y == 85)
+    {
+        lv_obj_set_style_text_color(touch_x_label, COLOR_RED, 0);
+        lv_obj_set_style_text_color(touch_y_label, COLOR_RED, 0);
+    }
+    else
+    {
+        lv_obj_set_style_text_color(touch_x_label, COLOR_GRAY, 0);
+        lv_obj_set_style_text_color(touch_y_label, COLOR_GRAY, 0);
+    }
+
     // Serial.printf("Touch at (%d, %d)\n", x, y);
     lv_label_set_text_fmt(touch_x_label, "X: %d", x);
     lv_label_set_text_fmt(touch_y_label, "Y: %d", y);
@@ -425,6 +442,15 @@ void lvgl_ui_init(void)
     lv_obj_set_style_text_font(time_label, &lv_font_montserrat_26, 0);
     lv_obj_set_style_text_align(time_label, LV_TEXT_ALIGN_CENTER, 0);
 
+    // lv_obj_t *sep = lv_obj_create(scr);
+    // lv_obj_set_size(sep, 304, 1);
+    // lv_obj_set_pos(sep, 8, 31);
+    // lv_obj_set_style_bg_color(sep, COLOR_GRAY, 0);
+    // lv_obj_set_style_border_width(sep, 0, 0);
+    // lv_obj_set_style_radius(sep, 0, 0);
+    // lv_obj_set_style_shadow_width(sep, 0, 0);
+    // lv_obj_set_style_pad_all(sep, 0, 0);
+
     // --- Date (center, below time) ---
     date_label = lv_label_create(scr);
     lv_obj_set_pos(date_label, 100, 24);
@@ -434,23 +460,14 @@ void lvgl_ui_init(void)
     lv_obj_set_style_text_font(date_label, &lv_font_montserrat_12, 0);
     lv_obj_set_style_text_align(date_label, LV_TEXT_ALIGN_CENTER, 0);
 
-    lv_obj_t *sep = lv_obj_create(scr);
-    lv_obj_set_size(sep, 304, 1);
-    lv_obj_set_pos(sep, 8, 31);
-    lv_obj_set_style_bg_color(sep, COLOR_DIM, 0);
-    lv_obj_set_style_border_width(sep, 0, 0);
-    lv_obj_set_style_radius(sep, 0, 0);
-    lv_obj_set_style_shadow_width(sep, 0, 0);
-    lv_obj_set_style_pad_all(sep, 0, 0);
-
     // --- WiFi info (right) ---
     wifi_ssid_label = lv_label_create(scr);
     lv_obj_align(wifi_ssid_label, LV_ALIGN_TOP_RIGHT, -4, 2);
-    lv_obj_set_size(wifi_ssid_label, 80, 14);
+    lv_obj_set_size(wifi_ssid_label, 80, 16);
     lv_label_set_text(wifi_ssid_label, "WiFi");
     lv_obj_set_style_text_color(wifi_ssid_label, COLOR_WHITE, 0);
     lv_obj_set_style_text_font(wifi_ssid_label, &lv_font_montserrat_12, 0);
-    lv_label_set_long_mode(wifi_ssid_label, LV_LABEL_LONG_SCROLL);
+    lv_label_set_long_mode(wifi_ssid_label, LV_LABEL_LONG_SCROLL_CIRCULAR);
 
     // WiFi icon dot
     lv_obj_t *wifi_dot = lv_obj_create(scr);
@@ -485,20 +502,22 @@ void lvgl_ui_init(void)
                                         card_start_x + 3 * (card_w + card_gap), card_y);
 
     touch_x_label = lv_label_create(scr);
-    lv_obj_set_pos(touch_x_label, 80, 100);
-    lv_obj_set_size(touch_x_label, 40, 14);
+    // lv_obj_set_pos(touch_x_label, 100, 100);
+    lv_obj_set_size(touch_x_label, 50, 16);
+    lv_obj_align(touch_x_label, LV_ALIGN_TOP_MID, -80, 100);
     lv_label_set_text(touch_x_label, "X: 0");
     lv_obj_set_style_text_color(touch_x_label, COLOR_GRAY, 0);
-    lv_obj_set_style_text_font(touch_x_label, &lv_font_montserrat_12, 0);
-    lv_obj_set_style_text_align(touch_x_label, LV_TEXT_ALIGN_LEFT, 0);
+    lv_obj_set_style_text_font(touch_x_label, &lv_font_montserrat_14, 0);
+    lv_obj_set_style_text_align(touch_x_label, LV_TEXT_ALIGN_CENTER, 0);
 
     touch_y_label = lv_label_create(scr);
-    lv_obj_set_pos(touch_y_label, 160, 100);
-    lv_obj_set_size(touch_y_label, 40, 14);
+    // lv_obj_set_pos(touch_y_label, 220, 100);
+    lv_obj_set_size(touch_y_label, 50, 16);
+    lv_obj_align(touch_y_label, LV_ALIGN_TOP_MID, 80, 100);
     lv_label_set_text(touch_y_label, "Y: 0");
     lv_obj_set_style_text_color(touch_y_label, COLOR_GRAY, 0);
-    lv_obj_set_style_text_font(touch_y_label, &lv_font_montserrat_12, 0);
-    lv_obj_set_style_text_align(touch_y_label, LV_TEXT_ALIGN_LEFT, 0);
+    lv_obj_set_style_text_font(touch_y_label, &lv_font_montserrat_14, 0);
+    lv_obj_set_style_text_align(touch_y_label, LV_TEXT_ALIGN_CENTER, 0);
 
     // --- SOC progress bar ---
     soc_bar = lv_bar_create(scr);
@@ -574,7 +593,7 @@ void lv_timer_cb(lv_timer_t *timer)
     // 3. Update WiFi status
     if (wifi_connected)
     {
-        lv_label_set_text(wifi_ssid_label, WIFI_SSID);
+        lv_label_set_text_fmt(wifi_ssid_label,"%s", WiFi.SSID().c_str());
         lv_label_set_text_fmt(wifi_ip_label, "%s", ip.toString().c_str());
     }
     else
@@ -626,10 +645,13 @@ void wifi_task(void *pvParameters)
     vTaskDelay(1000 / portTICK_PERIOD_MS);
     Serial.println("WiFi Task started...");
     WiFi.mode(WIFI_STA);
-    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+
+    WiFiMulti wifiMulti;
+    wifiMulti.addAP(WIFI_SSID_1, WIFI_PASSWORD_1);
+    wifiMulti.addAP(WIFI_SSID_2, WIFI_PASSWORD_2);
 
     int timeout = 10;
-    while (WiFi.status() != WL_CONNECTED && timeout > 0)
+    while (wifiMulti.run() != WL_CONNECTED && timeout > 0)
     {
         delay(1000);
         Serial.print("Connecting to WiFi... ");
@@ -641,7 +663,8 @@ void wifi_task(void *pvParameters)
     {
         wifi_connected = true;
         ip = WiFi.localIP();
-        Serial.println("WiFi connected!");
+        Serial.print("WiFi connected! SSID: ");
+        Serial.println(WiFi.SSID());
         Serial.print("IP address: ");
         Serial.println(ip);
 
@@ -689,13 +712,13 @@ void wifi_init(void)
         0);
 }
 
-void Button_23_Callback(ButtonState event)
+void Button_0_Callback(ButtonState event)
 {
     static bool lcd_on = true;
     switch (event)
     {
     case BTN_CLICK_EVENT:
-        Serial.println("Button 23 Clicked!");
+        Serial.println("Button 0 Clicked!");
         lcd_on = !lcd_on;
         if (lcd_on)
         {
@@ -705,7 +728,7 @@ void Button_23_Callback(ButtonState event)
         {
             fade_lcd_off(); // 渐变息屏
         }
-        break;  
+        break;
     }
 }
 
@@ -717,12 +740,12 @@ void Button_boot_Callback(ButtonState event)
         Serial.println("Button boot long pressed!");
         WiFi.disconnect();
         fade_lcd_off(); // 渐变息屏
-      
+
         ESP_ERROR_CHECK(esp_lcd_panel_disp_sleep(panel_handle, true));
 
         esp_deep_sleep_enable_gpio_wakeup(
-          (1ULL << GPIO_NUM_0),           // bit mask
-          ESP_GPIO_WAKEUP_GPIO_LOW        // 低电平唤醒
+            (1ULL << GPIO_NUM_0),    // bit mask
+            ESP_GPIO_WAKEUP_GPIO_LOW // 低电平唤醒
         );
         Serial.println("Sleeping...");
         esp_deep_sleep_start();
@@ -755,8 +778,8 @@ void setup()
         axp.setOverTempThreshold(60);
     }
 
-    btn_23.init(BUTTON_PIN, 50, nullptr);
-    btn_23.setEventCallback(Button_23_Callback);
+    btn_0.init(BUTTON_PIN, 50, nullptr);
+    btn_0.setEventCallback(Button_0_Callback);
     btn_boot.init(BUTTON_BOOT, 50, nullptr);
     btn_boot.setEventCallback(Button_boot_Callback);
 
@@ -769,7 +792,7 @@ void setup()
     lvgl_init();
     lvgl_ui_init();
 
-    delay(50); 
+    delay(50);
     fade_lcd_on();
 
     wifi_init();
@@ -777,7 +800,7 @@ void setup()
 
 void loop()
 {
-    btn_23.update();
+    btn_0.update();
     btn_boot.update();
     lv_timer_handler(); /* let the GUI do its work */
 
