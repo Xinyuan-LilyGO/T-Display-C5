@@ -5,7 +5,6 @@
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_vendor.h"
 #include "esp_lcd_st7789.h"
-#include "TCA6408.h"
 #include "CST816S.h"
 #include "board_config.h"
 #include "lvgl.h"
@@ -60,8 +59,6 @@ void lcd_init(void)
 {
     pinMode(LCD_PIN_BL, OUTPUT);
     digitalWrite(LCD_PIN_BL, HIGH);
-    TCA6408_ioExpander.pinMode(IO_EXPANDER_LCD_BLK, OUTPUT);
-    TCA6408_ioExpander.digitalWrite(IO_EXPANDER_LCD_BLK, HIGH);
 
     spi_bus_config_t bus_config = {
         .mosi_io_num = LCD_PIN_MOSI,
@@ -99,15 +96,6 @@ void lcd_init(void)
 
     // 创建ST7789面板
     ESP_ERROR_CHECK(esp_lcd_new_panel_st7789(io_handle, &panel_config, &panel_handle));
-
-    // ESP_ERROR_CHECK(esp_lcd_panel_reset(panel_handle));
-    TCA6408_ioExpander.pinMode(IO_EXPANDER_LCD_RES, OUTPUT);
-    TCA6408_ioExpander.digitalWrite(IO_EXPANDER_LCD_RES, HIGH);
-    delay(25);
-    TCA6408_ioExpander.digitalWrite(IO_EXPANDER_LCD_RES, LOW);
-    delay(25);
-    TCA6408_ioExpander.digitalWrite(IO_EXPANDER_LCD_RES, HIGH);
-    delay(125);
 
     ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
 
@@ -174,16 +162,9 @@ void setup()
     Serial.println("Initializing ST7789 LCD...");
 
     Wire.begin(IIC_SDA_PIN, IIC_SCL_PIN);
-    TCA6408_ioExpander.begin(&Wire);
     lcd_init();
 
 #ifdef CONFIG_TOUCH_CST816S
-    TCA6408_ioExpander.pinMode(IO_EXPANDER_3, OUTPUT);
-    TCA6408_ioExpander.digitalWrite(IO_EXPANDER_3, LOW);
-    delay(50);
-    TCA6408_ioExpander.digitalWrite(IO_EXPANDER_3, HIGH);
-    delay(100);
-
     touch.begin(RISING);
     touch.setRotation(3); 
     touch.attachUserInterrupt(onTouchInterrupt);

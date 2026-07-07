@@ -25,9 +25,7 @@
 #include <CST816S.h>
 #include "Arduino.h"
 #include "board_config.h"
-#include "TCA6408.h"
 
-TCA6408 ioExpander;
 
 CST816S touch(IIC_SDA_PIN, IIC_SCL_PIN, -1, TP_INT); // sda, scl, rst, irq
 
@@ -43,12 +41,6 @@ void setup()
 {
     Serial.begin(115200);
     Wire.begin(IIC_SDA_PIN, IIC_SCL_PIN);
-    ioExpander.begin(&Wire);
-    ioExpander.pinMode(IO_EXPANDER_3, OUTPUT);
-    ioExpander.digitalWrite(IO_EXPANDER_3, LOW);
-    delay(50);
-    ioExpander.digitalWrite(IO_EXPANDER_3, HIGH);
-    delay(100);
 
     touch.begin(RISING);
     touch.attachUserInterrupt(onTouchInterrupt);
