@@ -74,8 +74,8 @@ LilyGO T-Display-C5 是一款基于 **ESP32-C5** 的开发板，配备 1.9 英�
 [platformio]
 default_envs = factory   ; 改为你想运行的例程名
 ```
-
-5. 连接开发板，点击 **Upload** 按钮
+5. 同时按住rst和boot按键，先松开rst按键，在松开boot按键，进入烧录模式
+6. 连接开发板，点击 **Upload** 按钮
 
 ### 📟 Arduino IDE
 
@@ -91,7 +91,8 @@ default_envs = factory   ; 改为你想运行的例程名
    - PSRAM: Enabled (Quad QIO)
 5. 打开 `examples/<example_name>/<example_name>.ino`
 6. 将 `include/board_config.h` 和 `lib/` 下的库复制到 Arduino 的库目录或项目旁
-7. 点击 **Upload**
+7. 同时按住rst和boot按键，先松开rst按键，在松开boot按键，进入烧录模式
+8. 点击 **Upload**
 
 > **注意**：ESP32-C5 在 Arduino 中需要较新的支持版本。如遇问题，建议优先使用 PlatformIO。
 

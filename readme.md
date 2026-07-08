@@ -68,13 +68,12 @@ The LilyGO T-Display-C5 is a development board based on the **ESP32-C5**, featur
 2. Clone or download this repository
 3. Open the project folder in VS Code
 4. In `platformio.ini`, uncomment the `default_envs` line for your target example and comment out others:
-
 ```ini
 [platformio]
 default_envs = factory   ; change to your desired example name
 ```
-
-5. Connect the board and click the **Upload** button (→)
+5. Hold down both the `rst` and `boot` buttons simultaneously, then release the `rst` button first, followed by releasing the `boot` button to enter programming mode.
+6. Connect the board and click the **Upload** button (→)
 
 ### 📟 Arduino IDE
 
@@ -90,7 +89,8 @@ default_envs = factory   ; change to your desired example name
    - PSRAM: Enabled (Quad QIO)
 5. Open `examples/<example_name>/<example_name>.ino`
 6. Copy `include/board_config.h` and the libraries from `lib/` into your Arduino libraries folder or alongside the sketch
-7. Click **Upload**
+7. Hold down both the `rst` and `boot` buttons simultaneously, then release the `rst` button first, followed by releasing the `boot` button to enter programming mode.
+8. Click **Upload**
 
 > **Note**: The ESP32-C5 requires a recent Arduino ESP32 version. If you encounter issues, PlatformIO is recommended.
 
