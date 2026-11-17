@@ -1,6 +1,6 @@
 # T-Display-C5
 
-LilyGO T-Display-C5 是一款基于 **ESP32-C5** 的开发板，配备 1.9 英寸 ST7789 LCD 触摸屏、AXP2602 电源管理芯片和 CST816S 电容触摸控制器，支持按键（IO0）、I2C(IO2、IO3)深度睡眠唤醒。
+LilyGO T-Display-C5 是一款基于 **ESP32-C5** 的开发板，配备 1.9 英寸 ST7789 LCD屏、AXP2602 电源管理芯片和 CST816S 电容触摸控制器，支持按键（IO0）、I2C(IO2、IO3)深度睡眠唤醒。
 
 ## 🛠️ 硬件规格
 
@@ -17,26 +17,26 @@ LilyGO T-Display-C5 是一款基于 **ESP32-C5** 的开发板，配备 1.9 英�
 
 ## 🔌 引脚映射
 
-| 功能               | 引脚    | 说明         |
-| ------------------ | ------- | ------------ |
-| **LCD**            |         |              |
-| LCD_CS             | GPIO 26 | SPI 片选     |
-| LCD_SCK            | GPIO 7  | SPI 时钟     |
-| LCD_MOSI           | GPIO 9  | SPI 数据     |
-| LCD_DC             | GPIO 8  | 数据/命令    |
-| LCD_RST            | GPIO 23 | 复位         |
-| LCD_BLK            | GPIO 25 | 背光 PWM     |
-| **I2C**            |         |              |
-| I2C_SDA            | GPIO 2  | I2C 数据     |
-| I2C_SCL            | GPIO 3  | I2C 时钟     |
-| **触摸 (CST816S)** |         |              |
-| TP_INT             | GPIO 27 | 触摸中断     |
-| TP_RST             | GPIO 24 | 触摸复位     |
-| **按键**           |         |              |
-| BUTTON (GPIO0)     | GPIO 0  | 用户按键     |
-| BOOT               | GPIO 28 | BOOT 按键    |
-| **BMU**            |         |              |
-| AXP2602_INT        | GPIO 10 | AXP2602 中断 |
+| 功能            | 引脚    | 说明         |
+| --------------- | ------- | ------------ |
+| **LCD**         |         |              |
+| LCD_CS          | GPIO 26 | SPI 片选     |
+| LCD_SCK         | GPIO 7  | SPI 时钟     |
+| LCD_MOSI        | GPIO 9  | SPI 数据     |
+| LCD_DC          | GPIO 8  | 数据/命令    |
+| LCD_RST         | GPIO 23 | 复位         |
+| LCD_BLK         | GPIO 25 | 背光 PWM     |
+| **I2C**         |         |              |
+| I2C_SDA         | GPIO 2  | I2C 数据     |
+| I2C_SCL         | GPIO 3  | I2C 时钟     |
+| **触摸 (可选)** |         |              |
+| TP_INT          | GPIO 27 | 触摸中断     |
+| TP_RST          | GPIO 24 | 触摸复位     |
+| **按键**        |         |              |
+| BUTTON (GPIO0)  | GPIO 0  | 用户按键     |
+| BOOT            | GPIO 28 | BOOT 按键    |
+| **BMU**         |         |              |
+| AXP2602_INT     | GPIO 10 | AXP2602 中断 |
 
 >- ESP32C5在DeepSleep模式，IO0-IO6引脚可唤醒ESP32C5，详细说明请查看数据手册。
 
@@ -100,12 +100,25 @@ default_envs = factory   ; 改为你想运行的例程名
 
 ```
 T-Display-C5/
-  board/              # PlatformIO 板定义
-  doc/                # 文档和原理图
-  examples/           # 例程
-  include/            # 头文件 (board_config.h)
-  lib/                # 库
-  firmware/           # 编译输出 (.bin)
-  platformio.ini      # PlatformIO 配置
-  extra_script.py     # 编译后脚本
+├── board/              # PlatformIO board definition
+├── doc/                # Documentation & schematics
+├── examples/           # Example sketches
+│   ├── factory/
+│   ├── lcd/
+│   ├── lvgl/
+│   ├── spi_test/
+│   ├── touch/          # 需要带触摸的版本才能运行
+│   ├── voltameter/
+│   └── wifi_sat/
+├── include/            # Header files (board_config.h)
+├── lib/                # Libraries
+│   ├── AXP2602/        # Power management library
+│   ├── Button/         # Button library
+│   ├── CST816S/        # Touch library
+│   ├── esp_lcd_st7789/ # ST7789 LCD driver
+│   └── lvgl-9.2.0/    # LVGL graphics library
+├── firmware/           # Build output (.bin)
+├── platformio.ini      # PlatformIO configuration
+└── extra_script.py     # Post-build script
 ```
+

@@ -1,6 +1,6 @@
 # T-Display-C5
 
-The LilyGO T-Display-C5 is a development board based on the **ESP32-C5**, featuring a 1.9-inch ST7789 LCD touchscreen, an AXP2602 power management chip, and a CST816S capacitive touch controller. It supports wake-up from deep sleep via button (IO0) and I2C (IO2, IO3).
+The LilyGO T-Display-C5 is a development board based on the **ESP32-C5**, featuring a 1.9-inch ST7789 LCD, an AXP2602 power management chip, and a CST816S capacitive touch controller. It supports wake-up from deep sleep via button (IO0) and I2C (IO2, IO3).
 
 ## 🛠️ Hardware Specifications
 
@@ -17,26 +17,26 @@ The LilyGO T-Display-C5 is a development board based on the **ESP32-C5**, featur
 
 ## 🔌 Pin Mapping
 
-| Function            | Pin     | Description       |
-| ------------------- | ------- | ----------------- |
-| **LCD**             |         |                   |
-| LCD_CS              | GPIO 26 | SPI Chip Select   |
-| LCD_SCK             | GPIO 7  | SPI Clock         |
-| LCD_MOSI            | GPIO 9  | SPI Data          |
-| LCD_DC              | GPIO 8  | Data/Command      |
-| LCD_RST             | GPIO 23 | Reset             |
-| LCD_BLK             | GPIO 25 | Backlight PWM     |
-| **I2C**             |         |                   |
-| I2C_SDA             | GPIO 2  | I2C Data          |
-| I2C_SCL             | GPIO 3  | I2C Clock         |
-| **Touch (CST816S)** |         |                   |
-| TP_INT              | GPIO 27 | Touch Interrupt   |
-| TP_RST              | GPIO 24 | Touch Reset       |
-| **Buttons**         |         |                   |
-| BUTTON (GPIO0)      | GPIO 0  | User Button       |
-| BOOT                | GPIO 28 | BOOT Button       |
-| **BMU**             |         |                   |
-| AXP2602_INT         | GPIO 10 | AXP2602 Interrupt |
+| Function             | Pin     | Description       |
+| -------------------- | ------- | ----------------- |
+| **LCD**              |         |                   |
+| LCD_CS               | GPIO 26 | SPI Chip Select   |
+| LCD_SCK              | GPIO 7  | SPI Clock         |
+| LCD_MOSI             | GPIO 9  | SPI Data          |
+| LCD_DC               | GPIO 8  | Data/Command      |
+| LCD_RST              | GPIO 23 | Reset             |
+| LCD_BLK              | GPIO 25 | Backlight PWM     |
+| **I2C**              |         |                   |
+| I2C_SDA              | GPIO 2  | I2C Data          |
+| I2C_SCL              | GPIO 3  | I2C Clock         |
+| **Touch (Optional)** |         |                   |
+| TP_INT               | GPIO 27 | Touch Interrupt   |
+| TP_RST               | GPIO 24 | Touch Reset       |
+| **Buttons**          |         |                   |
+| BUTTON (GPIO0)       | GPIO 0  | User Button       |
+| BOOT                 | GPIO 28 | BOOT Button       |
+| **BMU**              |         |                   |
+| AXP2602_INT          | GPIO 10 | AXP2602 Interrupt |
 >- In DeepSleep mode, the ESP32C5 can be woken up by IO0-IO6 pins; for detailed information, please refer to the datasheet.
 
 ## 📦 Software Requirements
@@ -105,7 +105,7 @@ T-Display-C5/
 │   ├── lcd/
 │   ├── lvgl/
 │   ├── spi_test/
-│   ├── touch/
+│   ├── touch/          # A touch-enabled version is required to run.
 │   ├── voltameter/
 │   └── wifi_sat/
 ├── include/            # Header files (board_config.h)
